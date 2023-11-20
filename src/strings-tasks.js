@@ -357,8 +357,11 @@ function findLongestWord(sentence) {
  *   reverseWords('Hello World') => 'olleH dlroW'
  *   reverseWords('The Quick Brown Fox') => 'ehT kciuQ nworB xoF'
  */
-function reverseWords(/* str */) {
-  throw new Error('Not implemented');
+function reverseWords(str) {
+  return str
+    .split(' ')
+    .map((item) => item.split('').reverse().join(''))
+    .join(' ');
 }
 
 /**
@@ -372,8 +375,13 @@ function reverseWords(/* str */) {
  *   invertCase('JavaScript is Fun') => 'jAVAsCRIPT IS fUN'
  *   invertCase('12345') => '12345'
  */
-function invertCase(/* str */) {
-  throw new Error('Not implemented');
+function invertCase(str) {
+  return str
+    .split('')
+    .map((item) =>
+      item.toLowerCase() === item ? item.toUpperCase() : item.toLowerCase()
+    )
+    .join('');
 }
 
 /**
@@ -389,8 +397,8 @@ function invertCase(/* str */) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -403,8 +411,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.substring(7, value.length - 1);
 }
 
 /**
@@ -418,8 +426,8 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.replace(/[<>]/g, '');
 }
 
 /**
@@ -437,8 +445,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -457,8 +465,26 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  return str
+    .split('')
+    .map((item) => {
+      const charCode = item.charCodeAt(0);
+      let codeShift = 0;
+      if (
+        (charCode >= 65 && charCode <= 77) ||
+        (charCode >= 97 && charCode <= 109)
+      ) {
+        codeShift = 13;
+      } else if (
+        (charCode >= 78 && charCode <= 90) ||
+        (charCode >= 110 && charCode <= 122)
+      ) {
+        codeShift = -13;
+      }
+      return String.fromCharCode(charCode + codeShift);
+    })
+    .join('');
 }
 
 /**
@@ -485,8 +511,25 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const symbols = {
+    '♣': '0',
+    '♦': '13',
+    '♥': '26',
+    '♠': '39',
+    A: '1',
+    J: '11',
+    Q: '12',
+    K: '13',
+  };
+  return value
+    .match(/([AJQK\d]+)([♣♦♥♠])/)
+    .splice(1, 2)
+    .reduce(
+      (acc, item) =>
+        acc + +item.replace(/[AJQK♥♦♣♠]/, (match) => symbols[match]),
+      -1
+    );
 }
 
 module.exports = {
